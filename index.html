@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APEX BET - Like Betika</title>
+<style>
+body{margin:0;background:#1a1a1a;color:white;font-family:Arial}
+.header{background:#008a0a;padding:12px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:900;font-size:22px;color:#ffcc00}
+.bal{background:black;padding:6px 12px;border-radius:20px;color:#00ff00;font-weight:bold}
+.match{background:#2a2a2a;margin:10px;border-radius:8px;padding:12px}
+.teams{font-weight:bold;margin-bottom:8px}
+.odds{display:flex;gap:8px}
+.odd{flex:1;background:#333;padding:10px;text-align:center;border-radius:6px;cursor:pointer}
+.odd:hover{background:#008a0a}
+.odd.active{background:#ffcc00;color:black}
+.betslip{position:fixed;bottom:0;left:0;right:0;background:#008a0a;padding:12px;display:none}
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="logo">APEX BET</div>
+<div class="bal" id="bal">KSh 1,000.00</div>
+</div>
+
+<div class="match">
+<div class="teams">⚽ Gor Mahia vs AFC Leopards</div>
+<div class="odds">
+<div class="odd" onclick="addBet(this,'Gor','1.85')">1<br><b>1.85</b></div>
+<div class="odd" onclick="addBet(this,'Draw','3.20')">X<br><b>3.20</b></div>
+<div class="odd" onclick="addBet(this,'AFC','4.10')">2<br><b>4.10</b></div>
+</div>
+</div>
+
+<div class="match">
+<div class="teams">⚽ Arsenal vs Man City</div>
+<div class="odds">
+<div class="odd" onclick="addBet(this,'ARS','2.40')">1<br><b>2.40</b></div>
+<div class="odd" onclick="addBet(this,'Draw','3.00')">X<br><b>3.00</b></div>
+<div class="odd" onclick="addBet(this,'City','2.90')">2<br><b>2.90</b></div>
+</div>
+</div>
+
+<div class="match">
+<div class="teams">⚽ Kenya vs Uganda</div>
+<div class="odds">
+<div class="odd" onclick="addBet(this,'KEN','2.10')">1<br><b>2.10</b></div>
+<div class="odd" onclick="addBet(this,'Draw','2.80')">X<br><b>2.80</b></div>
+<div class="odd" onclick="addBet(this,'UGA','3.50')">2<br><b>3.50</b></div>
+</div>
+</div>
+
+<div class="betslip" id="slip">
+<div id="pick">No pick</div>
+<input id="stake" type="number" value="100" style="width:80px;padding:6px;border-radius:4px;border:none">
+<span> To Win: <b id="win">KSh 0</b></span>
+<button onclick="placeBet()" style="float:right;background:#ffcc00;border:none;padding:8px 16px;border-radius:20px;font-weight:bold">PLACE BET</button>
+</div>
+
+<script>
+let balance = 1000;
+let selectedOdd = 0;
+let selectedTeam = "";
+
+function addBet(el, team, odd){
+document.querySelectorAll('.odd').forEach(o=>o.classList.remove('active'));
+el.classList.add('active');
+selectedOdd = parseFloat(odd);
+selectedTeam = team;
+document.getElementById('slip').style.display='block';
+document.getElementById('pick').innerText = team + " @ " + odd;
+calcWin();
+}
+
+document.getElementById('stake').addEventListener('input', calcWin);
+
+function calcWin(){
+let stake = parseFloat(document.getElementById('stake').value)||0;
+document.getElementById('win').innerText = "KSh " + (stake * selectedOdd).toFixed(2);
+}
+
+function placeBet(){
+let stake = parseFloat(document.getElementById('stake').value);
+if(stake > balance) return alert("Low balance! Deposit via MPESA");
+if(!selectedOdd) return alert("Pick a team first");
+if(confirm("Place KSh " + stake + " on " + selectedTeam + "?")){
+balance -= stake;
+document.getElementById('bal').innerText = "KSh " + balance.toFixed(2);
+// 50% chance win (like real betting)
+if(Math.random() > 0.5){
+setTimeout(()=>{
+let win = stake * selectedOdd;
+balance += win;
+document.getElementById('bal').innerText = "KSh " + balance.toFixed(2);
+alert("🎉 WON! KSh " + win.toFixed(2) + " Added!");
+}, 3000);
+} else {
+setTimeout(()=>{alert("😢 Lost! Try again")}, 3000);
+}
+document.getElementById('slip').style.display='none';
+}
+}
+</script>
+</body>
+</html>
