@@ -1,106 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>APEX BET - Like Betika</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVOX AVIATOR - Full Working</title>
 <style>
-body{margin:0;background:#1a1a1a;color:white;font-family:Arial}
-.header{background:#008a0a;padding:12px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:900;font-size:22px;color:#ffcc00}
-.bal{background:black;padding:6px 12px;border-radius:20px;color:#00ff00;font-weight:bold}
-.match{background:#2a2a2a;margin:10px;border-radius:8px;padding:12px}
-.teams{font-weight:bold;margin-bottom:8px}
-.odds{display:flex;gap:8px}
-.odd{flex:1;background:#333;padding:10px;text-align:center;border-radius:6px;cursor:pointer}
-.odd:hover{background:#008a0a}
-.odd.active{background:#ffcc00;color:black}
-.betslip{position:fixed;bottom:0;left:0;right:0;background:#008a0a;padding:12px;display:none}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+body{background:#0a0a0a;color:#fff;max-width:430px;margin:0 auto;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:#1e1e1e;padding:10px;display:flex;gap:6px;align-items:center}
+.pill{padding:7px 16px;border-radius:20px;background:#2c2c2c;color:#777;border:none;font-weight:700;font-size:13px}
+.pill.active{background:#3a3a3a;color:#fff}
+.deposit{margin-left:auto;background:#ffcc00;color:#000;padding:7px 14px;border-radius:20px;font-weight:900;border:none}
+.balance{font-size:11px;color:#888;margin-left:4px}
+.tournament{margin:8px;background:linear-gradient(90deg,#2a2142,#1a1a2e);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;border:1px solid #333}
+.history{display:flex;gap:5px;padding:4px 8px;overflow-x:auto}
+.history span{padding:4px 9px;border-radius:12px;font-size:11px;font-weight:800;white-space:nowrap}
+.purple{color:#c084fc;background:#2a1f3a;border:1px solid #3b2a5a}
+.blue{color:#60a5fa;background:#1a2e4a}
+.red{color:#f87171;background:#3a1f1f}
+.game{flex:1;margin:8px;background:#000;border-radius:14px;position:relative;overflow:hidden;border:1px solid #222;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rays{position:absolute;inset:0;background:repeating-conic-gradient(from 260deg at 10% 90%, #000 0deg 8deg, #111 8deg 16deg)}
+.logo{position:absolute;top:12px;left:12px;color:#e30613;font-style:italic;font-weight:900;font-size:22px;z-index:5}
+#mult{font-size:58px;font-weight:900;z-index:2}
+#msg{font-size:13px;color:#aaa;z-index:2;margin-top:6px;height:18px}
+#plane{position:absolute;left:5%;bottom:18%;font-size:32px;z-index:3;transition:all 0.05s linear}
+.bets{display:flex;gap:6px;padding:6px}
+.panel{flex:1;background:#1c1c1e;border-radius:14px;padding:8px;border:1px solid #2a2a2a}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.tog{display:flex;background:#0f0f0f;border-radius:16px;padding:2px}
+.tog button{padding:4px 10px;border-radius:14px;border:none;background:transparent;color:#666;font-size:11px;font-weight:700}
+.tog button.on{background:#333;color:#fff}
+.amtbox{display:flex;align-items:center;background:#0f0f0f;border-radius:20px;padding:3px;border:1px solid #333;margin-bottom:6px}
+.amtbox button{width:26px;height:26px;border-radius:50%;border:none;background:#2a2a2a;color:#fff}
+.amtbox input{flex:1;background:transparent;border:none;color:#fff;text-align:center;font-weight:700;font-size:12px;outline:none}
+.autocash{display:flex;gap:4px;margin-bottom:6px}
+.autocash input{flex:1;background:#0f0f0f;border:1px solid #333;border-radius:14px;padding:5px 8px;color:#fff;font-size:11px;text-align:center}
+.betbtn{width:100%;padding:12px;border:none;border-radius:10px;font-weight:900;font-size:13px;cursor:pointer}
+.green{background:#00e701;color:#000;box-shadow:0 3px 0 #00a501}
+.yellow{background:#ffcc00;color:#000;box-shadow:0 3px 0 #b89300}
+.gray{background:#3a3a3a;color:#888;box-shadow:none}
+.quicks{display:flex;gap:4px;margin-top:6px}
+.quicks button{flex:1;padding:5px;border-radius:12px;background:#0f0f0f;border:1px solid #333;color:#888;font-size:10px}
 </style>
 </head>
 <body>
-
-<div class="header">
-<div class="logo">APEX BET</div>
-<div class="bal" id="bal">KSh 1,000.00</div>
+<div class="topbar">
+<button class="pill active">Room 1</button><button class="pill">Room 2</button>
+<button class="deposit">+ Deposit</button><span class="balance" id="bal">500.00 KES</span>
 </div>
-
-<div class="match">
-<div class="teams">⚽ Gor Mahia vs AFC Leopards</div>
-<div class="odds">
-<div class="odd" onclick="addBet(this,'Gor','1.85')">1<br><b>1.85</b></div>
-<div class="odd" onclick="addBet(this,'Draw','3.20')">X<br><b>3.20</b></div>
-<div class="odd" onclick="addBet(this,'AFC','4.10')">2<br><b>4.10</b></div>
+<div class="tournament"><div><b style="color:#ffeb3b;font-size:12px">🏆 TOURNAMENT</b><div style="font-size:10px">Weekly prize pool 500,000 KES</div></div><div style="background:#333;padding:8px 12px;border-radius:10px;color:#ffcc00">→</div></div>
+<div class="history" id="hist"></div>
+<div class="game">
+<div class="rays"></div>
+<div class="logo">Aviator</div>
+<div id="plane">✈️</div>
+<div id="mult">1.00x</div>
+<div id="msg">Place your bets</div>
 </div>
+<div class="bets">
+<div class="panel">
+<div class="head"><small id="b1">500 KES</small><div class="tog"><button id="t1b" class="on" onclick="setMode(1,'bet')">Bet</button><button id="t1a" onclick="setMode(1,'auto')">Auto</button></div></div>
+<div class="amtbox"><button onclick="chg(1,-10)">−</button><input id="a1" value="20.00 KES"><button onclick="chg(1,10)">+</button></div>
+<div class="autocash"><input id="ac1" placeholder="Auto Cash Out e.g. 2.00"></div>
+<button class="betbtn green" id="btn1" onclick="clickBet(1)">Bet 20.00 KES</button>
+<div class="quicks"><button onclick="q(1,10)">10</button><button onclick="q(1,100)">100</button><button onclick="q(1,200)">200</button><button onclick="q(1,500)">500</button></div>
 </div>
-
-<div class="match">
-<div class="teams">⚽ Arsenal vs Man City</div>
-<div class="odds">
-<div class="odd" onclick="addBet(this,'ARS','2.40')">1<br><b>2.40</b></div>
-<div class="odd" onclick="addBet(this,'Draw','3.00')">X<br><b>3.00</b></div>
-<div class="odd" onclick="addBet(this,'City','2.90')">2<br><b>2.90</b></div>
-</div>
-</div>
-
-<div class="match">
-<div class="teams">⚽ Kenya vs Uganda</div>
-<div class="odds">
-<div class="odd" onclick="addBet(this,'KEN','2.10')">1<br><b>2.10</b></div>
-<div class="odd" onclick="addBet(this,'Draw','2.80')">X<br><b>2.80</b></div>
-<div class="odd" onclick="addBet(this,'UGA','3.50')">2<br><b>3.50</b></div>
+<div class="panel">
+<div class="head"><small id="b2">500 KES</small><div class="tog"><button id="t2b" class="on" onclick="setMode(2,'bet')">Bet</button><button id="t2a" onclick="setMode(2,'auto')">Auto</button></div></div>
+<div class="amtbox"><button onclick="chg(2,-10)">−</button><input id="a2" value="20.00 KES"><button onclick="chg(2,10)">+</button></div>
+<div class="autocash"><input id="ac2" placeholder="Auto Cash Out"></div>
+<button class="betbtn green" id="btn2" onclick="clickBet(2)">Bet 20.00 KES</button>
+<div class="quicks"><button onclick="q(2,10)">10</button><button onclick="q(2,100)">100</button><button onclick="q(2,200)">200</button><button onclick="q(2,500)">500</button></div>
 </div>
 </div>
-
-<div class="betslip" id="slip">
-<div id="pick">No pick</div>
-<input id="stake" type="number" value="100" style="width:80px;padding:6px;border-radius:4px;border:none">
-<span> To Win: <b id="win">KSh 0</b></span>
-<button onclick="placeBet()" style="float:right;background:#ffcc00;border:none;padding:8px 16px;border-radius:20px;font-weight:bold">PLACE BET</button>
-</div>
-
 <script>
-let balance = 1000;
-let selectedOdd = 0;
-let selectedTeam = "";
-
-function addBet(el, team, odd){
-document.querySelectorAll('.odd').forEach(o=>o.classList.remove('active'));
-el.classList.add('active');
-selectedOdd = parseFloat(odd);
-selectedTeam = team;
-document.getElementById('slip').style.display='block';
-document.getElementById('pick').innerText = team + " @ " + odd;
-calcWin();
-}
-
-document.getElementById('stake').addEventListener('input', calcWin);
-
-function calcWin(){
-let stake = parseFloat(document.getElementById('stake').value)||0;
-document.getElementById('win').innerText = "KSh " + (stake * selectedOdd).toFixed(2);
-}
-
-function placeBet(){
-let stake = parseFloat(document.getElementById('stake').value);
-if(stake > balance) return alert("Low balance! Deposit via MPESA");
-if(!selectedOdd) return alert("Pick a team first");
-if(confirm("Place KSh " + stake + " on " + selectedTeam + "?")){
-balance -= stake;
-document.getElementById('bal').innerText = "KSh " + balance.toFixed(2);
-// 50% chance win (like real betting)
-if(Math.random() > 0.5){
-setTimeout(()=>{
-let win = stake * selectedOdd;
-balance += win;
-document.getElementById('bal').innerText = "KSh " + balance.toFixed(2);
-alert("🎉 WON! KSh " + win.toFixed(2) + " Added!");
-}, 3000);
-} else {
-setTimeout(()=>{alert("😢 Lost! Try again")}, 3000);
-}
-document.getElementById('slip').style.display='none';
-}
-}
-</script>
-</body>
-</html>
+let balance=500, state='betting', mult=1.0, crash=0, timer=null, betTimer=6, bets=[null,null], amounts=[20,20], modes=['bet','bet'], autoCash=[0,0];
+function fmt(x){return x.toFixed(2)+' KES';
